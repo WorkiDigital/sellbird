@@ -153,7 +153,7 @@ function formatDate(d) {
     if (/^\d{4}-\d\d-\d\dT/.test(t) && !/[zZ]$|[+-]\d\d:?\d\d$/.test(t)) t += 'Z';  // stored UTC
     const dt = new Date(t);
     if (isNaN(dt)) return escHtml(d);
-    return dt.toLocaleString('en-US', {month:'short',day:'numeric',hour:'numeric',minute:'2-digit'});
+    return dt.toLocaleString('pt-BR', {month:'short',day:'numeric',hour:'numeric',minute:'2-digit'});
   } catch { return escHtml(d); }
 }
 
@@ -192,7 +192,7 @@ function relTime(d) {
   if (mins >= 60 * 24 && mins < 60 * 48) return 'Yesterday';
   const opts = {month: 'short', day: 'numeric'};
   if (dt.getFullYear() !== new Date().getFullYear()) opts.year = 'numeric';
-  return dt.toLocaleDateString('en-US', opts);
+  return dt.toLocaleDateString('pt-BR', opts);
 }
 
 function dayLabel(d) {
@@ -203,12 +203,12 @@ function dayLabel(d) {
   const diff = Math.round((today - that) / 86400000);
   if (diff === 0) return 'Today';
   if (diff === 1) return 'Yesterday';
-  return dt.toLocaleDateString('en-US', {weekday: 'long', month: 'short', day: 'numeric'});
+  return dt.toLocaleDateString('pt-BR', {weekday: 'long', month: 'short', day: 'numeric'});
 }
 
 function timeOfDay(d) {
   const dt = parseTs(d);
-  return isNaN(dt) ? '' : dt.toLocaleTimeString('en-US', {hour: 'numeric', minute: '2-digit'});
+  return isNaN(dt) ? '' : dt.toLocaleTimeString('pt-BR', {hour: 'numeric', minute: '2-digit'});
 }
 
 // Columns of a tiny bar chart; the last day is "today".
@@ -2698,7 +2698,7 @@ function inboxMeter(ib) {
 function inboxDate(iso) {
   if (!iso) return '';
   const d = new Date(iso.length === 10 ? iso + 'T00:00:00' : iso);
-  return isNaN(d) ? iso : d.toLocaleDateString(undefined, {month: 'short', day: 'numeric', year: 'numeric'});
+  return isNaN(d) ? iso : d.toLocaleDateString('pt-BR', {month: 'short', day: 'numeric', year: 'numeric'});
 }
 
 async function loadInboxes() {
