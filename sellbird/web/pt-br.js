@@ -500,14 +500,14 @@
   "waits in the Outbox until you approve it.": "aguarda na Caixa de saída até você aprovar.",
   "On Instantly, which can’t hold single emails, that means campaigns aren’t deployed.": "No Instantly, que não retém emails individuais, isso significa que as campanhas não são ativadas.",
   "Sellbird sends email on its own. It holds anything that links to a site that isn’t yours or": "O Sellbird envia emails automaticamente. Ele retém mensagens com links para sites que não são seus ou",
-  "quotes its own instructions; those wait here": "que reproduzam suas próprias instruções; essas mensagens aguardam aqui",
+  "quotes its own instructions; those wait here": "que reproduzam instruções internas; essas mensagens aguardam aqui",
   "Opt-outs, bounces and Pause all sending work the same. It still holds an email for you when it links": "Descadastros, devoluções e Pausar todos os envios continuam funcionando. Um email será retido se contiver link",
   "to, or gives an address at, a site that isn’t yours, or quotes Sellbird’s own instructions: text from": "ou endereço de um site que não é seu, ou reproduzir instruções internas do Sellbird: textos de",
   "websites and replies can try to steer what it writes. The first reply after you undo an opt-out waits too.": "sites e respostas podem tentar influenciar a redação. A primeira resposta após reverter um descadastro também fica retida.",
   "Counted as yours:": "Considerados seus:",
   "your booking page": "sua página de agendamento",
   "Turning it off works at once: emails autopilot": "A desativação é imediata: emails que o envio automático",
-  "approved that haven’t gone out come back to the Outbox.": "aprovou e ainda não enviou voltam para a Caixa de saída.",
+  "approved that haven’t gone out come back to the Outbox.": "aprovou, mas ainda não enviou, voltam para a Caixa de saída.",
   "Campaigns already on Instantly keep running until you pause them there.": "Campanhas já em execução no Instantly continuam até você pausá-las lá.",
   "Approve a batch or two by hand first": "Aprove manualmente alguns lotes antes",
   "and read what Sellbird writes. Type": "e confira os textos do Sellbird. Digite",
@@ -579,7 +579,57 @@
   "Never": "Nunca",
   "View": "Visualizar",
   "Details": "Detalhes",
-  "Last run": "Última execução"
+  "Last run": "Última execução",
+  "~$0.006 per search at depth 30 (paid SERP API, Live endpoint)": "aprox. US$ 0,006 por busca com profundidade 30 (API SERP paga, modo Live)",
+  "included in the organic rank search above": "incluído na pesquisa orgânica acima",
+  "~$0.002 per Maps search of up to 100 results (paid SERP API)": "aprox. US$ 0,002 por busca de até 100 resultados no Maps (API paga)",
+  "included in the search above": "incluído na pesquisa acima",
+  "included in the business listing lookup": "incluído na consulta de cadastros de empresas",
+  "free (homepage HTML)": "grátis (HTML da página inicial)",
+  "free (sitemap.xml)": "grátis (sitemap.xml)",
+  "free (robots.txt)": "grátis (robots.txt)",
+  "free (homepage and About page)": "grátis (página inicial e Sobre)",
+  "free (homepage, About, press page)": "grátis (página inicial, Sobre e imprensa)",
+  "free (careers page or public job-board feed)": "grátis (página de carreiras ou vagas públicas)",
+  "free (public job-board feed, one request)": "grátis (quadro de vagas público, uma requisição)",
+  "free (team page)": "grátis (página da equipe)",
+  "free (public registry API)": "grátis (API de registro público)",
+  "free (company website)": "grátis (site da empresa)",
+  "free, or ~1 lookup credit": "grátis ou cerca de 1 crédito de consulta",
+  "1 verification credit (free tiers available)": "1 crédito de verificação (com planos gratuitos)",
+  "free (site HTML)": "grátis (HTML do site)",
+  "Confirm all ": "Confirmar todos ",
+  "Skip all ": "Ignorar todos ",
+  "in range": "no intervalo",
+  "min": "mínimo",
+  "max": "máximo",
+  "Query": "Consulta",
+  "Google Maps search": "Busca no Google Maps",
+  "Created": "Criado",
+  "Sent by you": "Enviado por você",
+  "myself": "pessoalmente",
+  "Sellbird sends on its own, on schedule, within your daily limit and quiet hours.": "O Sellbird envia automaticamente, nos horários programados e respeitando seus limites diários e de silêncio.",
+  "Add others under": "Adicione outros em",
+  "to turn it on. It starts from Sellbird’s next cycle.": "para ativar. A mudança começa no próximo ciclo do Sellbird.",
+  "Warmup: TrulyInbox connected": "Aquecimento: TrulyInbox conectado",
+  "Warmup: your own warmup service": "Aquecimento: seu serviço de aquecimento",
+  "Cloudflare deep crawling": "Leitura aprofundada com Cloudflare",
+  "Optional. Enter your LinkedIn credentials in Settings to enable LinkedIn prospecting.": "Opcional. Informe suas credenciais do LinkedIn em Configurações para ativar a prospecção no LinkedIn.",
+  "Optional. For JavaScript-rendered website crawling during training.": "Opcional. Permite analisar sites que exigem JavaScript durante o treinamento.",
+  "Go to the Settings tab to enter your API keys.": "Acesse Configurações para informar suas chaves de API.",
+  "Enter your Instantly API key in Settings.": "Informe sua chave de API do Instantly em Configurações.",
+  "Enter your SMTP host, username, and password in Settings.": "Informe o servidor SMTP, usuário e senha em Configurações.",
+  "Add your Microsoft 365 client and tenant IDs in Settings, then sign in on the Inboxes tab (or run 'sellbird microsoft auth').": "Adicione os IDs do aplicativo e diretório Microsoft 365 em Configurações e entre em Caixas de entrada (ou execute 'sellbird microsoft auth').",
+  "Add a Reoon (free 600/mo), ZeroBounce, or Hunter key in Settings — without one, found emails stay 'guess' and are never sent.": "Adicione a chave do Reoon (600 verificações grátis/mês), ZeroBounce ou Hunter em Configurações. Sem verificação, os emails encontrados não serão enviados.",
+  "Train Sellbird on your product. Use the trainer or set up manually through Claude.": "Treine o Sellbird com seu produto usando o assistente de treinamento ou configure manualmente pelo Claude.",
+  "Run: sellbird train https://yourwebsite.com (or set up through Claude).": "Execute: sellbird train https://yourwebsite.com (ou configure com Claude).",
+  "Email provider configured (gmail)": "Provedor de email configurado (Gmail)",
+  "Email provider configured (smtp)": "Provedor de email configurado (SMTP)",
+  "not looked at yet": "ainda não analisadas",
+  "what changed": "o que mudou",
+  "More": "Mais",
+  "All": "Todos",
+  "Last 14 days": "Últimos 14 dias"
 };
   const signalCatalogPt = {
   "SERP_RANK": {
@@ -702,35 +752,54 @@
   const providerCatalogPt = {
   "dataforseo_listings": {
     "blurb": "Encontra empresas por categoria e região, incluindo telefone, site, avaliações e informação sobre o cadastro no Google. Útil para negócios locais, clínicas e prestadores de serviços.",
-    "caveat": "Não fornece endereços de email; o Sellbird procura os contatos em outra etapa."
+    "caveat": "Não fornece endereços de email; o Sellbird procura os contatos em outra etapa.",
+    "label": "DataForSEO — Lista de empresas",
+    "cost_note": "US$ 0,372 por 1.000 empresas (US$ 0,012/consulta + US$ 0,00036 por empresa)",
+    "free_tier": "Crédito de US$ 1 no cadastro; depósito mínimo de US$ 50 para uso"
   },
   "dataforseo_serp": {
     "blurb": "Pesquisa serviços e cidades, registra as posições orgânicas e os três principais resultados locais. Encontra empresas e mede seu posicionamento.",
-    "caveat": "A profundidade da busca influencia o custo. Posições dependem da localização de quem pesquisa; os resultados representam a busca a partir do centro da cidade."
+    "caveat": "A profundidade da busca influencia o custo. Posições dependem da localização de quem pesquisa; os resultados representam a busca a partir do centro da cidade.",
+    "label": "DataForSEO — Posição orgânica",
+    "cost_note": "US$ 0,002 por 10 resultados (Live); profundidade 30 custa US$ 0,006 por busca",
+    "free_tier": "Crédito de US$ 1; sandbox grátis; depósito mínimo de US$ 50"
   },
   "dataforseo_maps": {
     "blurb": "Pesquisa empresas no Google Maps e registra posição, avaliação, categoria e se o cadastro foi reivindicado, inclusive negócios sem site.",
-    "caveat": "A posição no mapa depende muito do local de pesquisa. O Sellbird usa o centro da cidade como referência."
+    "caveat": "A posição no mapa depende muito do local de pesquisa. O Sellbird usa o centro da cidade como referência.",
+    "label": "DataForSEO — Google Maps (posição)",
+    "cost_note": "US$ 0,002 por busca de até 100 resultados (Live)",
+    "free_tier": "Crédito de US$ 1; sandbox grátis; depósito mínimo de US$ 50"
   },
   "serper": {
     "blurb": "Pesquisa rápida no Google com posições nos resultados. Oferece 2.500 consultas gratuitas e requer apenas uma chave de API.",
-    "caveat": "Retorna no máximo 10 resultados por consulta, mesmo quando uma profundidade maior é solicitada."
+    "caveat": "Retorna no máximo 10 resultados por consulta, mesmo quando uma profundidade maior é solicitada.",
+    "cost_note": "aprox. US$ 0,30 a US$ 1,00 por 1.000 buscas, conforme o plano",
+    "free_tier": "2.500 consultas grátis, sem cartão"
   },
   "tinyfish": {
     "blurb": "Pesquisa gratuita na web com chave de API. Encontra empresas por expressão, mas não registra posição no Google.",
-    "caveat": "Exige TINYFISH_API_KEY no .env. O serviço tem limites de uso por minuto e hora; para posições no Google, use Serper ou DataForSEO SERP."
+    "caveat": "Exige TINYFISH_API_KEY no .env. O serviço tem limites de uso por minuto e hora; para posições no Google, use Serper ou DataForSEO SERP.",
+    "cost_note": "grátis",
+    "free_tier": "grátis com chave, sem cartão: 30 buscas/min e 500/h"
   },
   "osm": {
     "blurb": "Dados públicos gratuitos de mapas. Não exige cadastro, chave ou cartão. Permite testar a prospecção antes de contratar um provedor.",
-    "caveat": "A cobertura é limitada para serviços sem endereço físico. É boa para testes e cruzamento de dados, mas não representa um cadastro completo."
+    "caveat": "A cobertura é limitada para serviços sem endereço físico. É boa para testes e cruzamento de dados, mas não representa um cadastro completo.",
+    "cost_note": "grátis",
+    "free_tier": "ilimitado dentro dos limites comunitários"
   },
   "scavio_maps": {
     "blurb": "Resultados do Google Maps por cidade, incluindo telefone, site, categoria, nota e quantidade de avaliações. Até 120 empresas por busca.",
-    "caveat": "O Google Maps não informa se o cadastro foi reivindicado. Usa a mesma chave do Scavio Google Search."
+    "caveat": "O Google Maps não informa se o cadastro foi reivindicado. Usa a mesma chave do Scavio Google Search.",
+    "label": "Scavio — Google Maps",
+    "cost_note": "1 crédito por página (até 20 locais); estimativas a US$ 0,01/crédito"
   },
   "scavio_search": {
     "blurb": "Resultados orgânicos do Google com posições. A mesma chave Scavio também permite pesquisar empresas no Google Maps.",
-    "caveat": "Os resultados usam o Google em inglês dos EUA, a menos que a busca indique outra localidade. Profundidade de 20 a 30 é um bom equilíbrio."
+    "caveat": "Os resultados usam o Google em inglês dos EUA, a menos que a busca indique outra localidade. Profundidade de 20 a 30 é um bom equilíbrio.",
+    "label": "Scavio — Pesquisa no Google",
+    "cost_note": "1 crédito por página (até 10 resultados); profundidade 30 estimada em US$ 0,03"
   }
 };
   const entries = new Map(Object.entries({...copy, ...extraCopy, ...auditCopy}).map(([key, value]) => [key.trim(), value.trim()]));
