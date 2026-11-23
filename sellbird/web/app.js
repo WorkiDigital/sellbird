@@ -258,35 +258,35 @@ function actionText(a) {
   const d = a.details || {};
   const who = escHtml(d.prospect_email || d.prospect || d.to || '');
   const camp = escHtml(d.campaign_name || d.campaign || '');
+  const pt = dashboardLocale() === 'pt-BR';
   const intent = d.intent ? ' · ' + escHtml(String(d.intent).replace(/_/g, ' ')) : '';
-  const n = (v, one, many) => (Number(v) || 0) + ' ' + ((Number(v) || 0) === 1 ? one : many);
+  const n = (v, singular, plural) => (Number(v) || 0) + ' ' + (Number(v) === 1 ? singular : plural);
   switch (a.action_type) {
-    case 'prospect': return 'Found ' + n(d.prospects_found, 'new contact', 'new contacts');
-    case 'write_campaign': return 'Wrote “' + camp + '” for ' + n(d.prospect_count, 'contact', 'contacts');
-    case 'write_failed': return 'Couldn’t write for some contacts' + (camp ? ' in “' + camp + '”' : '');
-    case 'stage_campaign': return 'Queued ' + n(d.staged, 'email', 'emails') + ' from “' + camp + '”' +
-      (d.mode ? ' · ' + escHtml(d.mode) : '');
-    case 'send_campaign': return 'Sent “' + camp + '” to Instantly · ' + n(d.leads_added, 'lead', 'leads');
-    case 'email_sent': return d.kind === 'reply' ? 'Sent a reply to ' + who
-      : 'Sent email ' + escHtml(String(d.step || 1)) + ' to ' + who;
-    case 'reply': return 'Answered ' + who + intent;
-    case 'reply_queued': return 'Drafted a reply to ' + who + intent;
-    case 'opt_out': return who + ' opted out' + (d.why ? ' · ' + escHtml(d.why) : '');
-    case 'opt_out_undone': return 'You undid ' + (who || 'a contact') + '’s opt-out';
-    case 'reply_after_opt_out': return who + ' wrote again after opting out · no reply sent';
-    case 'escalation': return 'Flagged ' + who + ' for you' + (d.reason ? ' · ' + escHtml(d.reason) : '');
-    case 'bounce': return 'Email to ' + who + ' bounced';
-    case 'manual_send': return 'You marked a contact as emailed by hand';
-    case 'manual_send_undone': return 'You undid a hand-sent mark';
-    case 'outbox_edited': return 'You edited a draft';
-    case 'conversation_status':
-      return d.to === 'closed' ? 'You closed a conversation'
-        : d.from === 'needs_human' ? 'You handed a conversation back to Sellbird' : 'You reopened a conversation';
+    case 'prospect': return (pt ? 'Encontrou ' : 'Found ') + n(d.prospects_found, pt ? 'novo contato' : 'new contact', pt ? 'novos contatos' : 'new contacts');
+    case 'write_campaign': return (pt ? 'Escreveu “' : 'Wrote “') + camp + (pt ? '” para ' : '” for ') + n(d.prospect_count, 'contato', pt ? 'contatos' : 'contacts');
+    case 'write_failed': return (pt ? 'Não foi possível escrever para alguns contatos' : 'Couldn’t write for some contacts') + (camp ? (pt ? ' em “' : ' in “') + camp + '”' : '');
+    case 'stage_campaign': return (pt ? 'Colocou na fila ' : 'Queued ') + n(d.staged, 'email', 'emails') + (pt ? ' de “' : ' from “') + camp + '”' + (d.mode ? ' · ' + escHtml(d.mode) : '');
+    case 'send_campaign': return (pt ? 'Enviou “' : 'Sent “') + camp + (pt ? '” para o Instantly · ' : '” to Instantly · ') + n(d.leads_added, 'lead', 'leads');
+    case 'email_sent': return d.kind === 'reply' ? (pt ? 'Enviou uma resposta para ' : 'Sent a reply to ') + who : (pt ? 'Enviou o email ' : 'Sent email ') + escHtml(String(d.step || 1)) + (pt ? ' para ' : ' to ') + who;
+    case 'reply': return (pt ? 'Respondeu a ' : 'Answered ') + who + intent;
+    case 'reply_queued': return (pt ? 'Preparou uma resposta para ' : 'Drafted a reply to ') + who + intent;
+    case 'opt_out': return who + (pt ? ' solicitou descadastro' : ' opted out') + (d.why ? ' · ' + escHtml(d.why) : '');
+    case 'opt_out_undone': return pt ? 'Você reverteu o descadastro de ' + (who || 'um contato') : 'You undid ' + (who || 'a contact') + '’s opt-out';
+    case 'reply_after_opt_out': return who + (pt ? ' respondeu após o descadastro · nenhuma resposta enviada' : ' wrote again after opting out · no reply sent');
+    case 'escalation': return (pt ? 'Encaminhou ' : 'Flagged ') + who + (pt ? ' para sua análise' : ' for you') + (d.reason ? ' · ' + escHtml(d.reason) : '');
+    case 'bounce': return (pt ? 'O email para ' : 'Email to ') + who + (pt ? ' foi devolvido' : ' bounced');
+    case 'manual_send': return pt ? 'Você marcou um contato como abordado manualmente' : 'You marked a contact as emailed by hand';
+    case 'manual_send_undone': return pt ? 'Você desfez uma marcação de envio manual' : 'You undid a hand-sent mark';
+    case 'outbox_edited': return pt ? 'Você editou um rascunho' : 'You edited a draft';
+    case 'conversation_status': return d.to === 'closed'
+      ? (pt ? 'Você encerrou uma conversa' : 'You closed a conversation')
+      : d.from === 'needs_human'
+        ? (pt ? 'Você devolveu uma conversa ao Sellbird' : 'You handed a conversation back to Sellbird')
+        : (pt ? 'Você reabriu uma conversa' : 'You reopened a conversation');
   }
-  const text = escHtml(String(a.action_type || '').replace(/_/g, ' '));
-  return a.agent === 'main' ? 'Heartbeat: ' + text : text;
+  const fallback = escHtml(String(a.action_type || '').replace(/_/g, ' '));
+  return a.agent === 'main' ? (pt ? 'Ciclo de execução: ' : 'Heartbeat: ') + fallback : fallback;
 }
-
 function emptyState(glyph, title, copy) {
   return '<div class="empty"><div class="glyph">' + glyph + '</div>' +
     '<div class="title">' + title + '</div>' +
@@ -817,11 +817,21 @@ async function loadSignals() {
   renderCohortBuilder();
 }
 
+function signalLabel(sig) {
+  return window.sellbirdSignalText?.(sig.code, 'label', sig.label || sig.code) || sig.label || sig.code;
+}
+function signalDescription(sig) {
+  return window.sellbirdSignalText?.(sig.code, 'description', sig.description) || sig.description;
+}
+function localizedUi(value) {
+  return window.sellbirdTranslateUi?.(value) ?? value;
+}
+
 function sigRow(sig) {
   const free = /free|included/i.test(sig.cost_note || '');
   const costCls = free ? 'free' : (/\$/.test(sig.cost_note || '') ? 'paid' : '');
   const seen = sig.companies
-    ? '<span class="cost-chip">seen on ' + sig.companies +
+    ? '<span class="cost-chip">' + (dashboardLocale() === 'pt-BR' ? 'identificado em ' : 'seen on ') + sig.companies +
       (sig.companies === 1 ? ' company' : ' companies') + ' so far</span>' : '';
   const floor = sig.confidence_floor > 0
     ? '<span class="cost-chip">only recorded above ' +
@@ -840,11 +850,11 @@ function sigRow(sig) {
 
   return '<div class="sig-row ' + (sig.status === 'rejected' ? 'rejected' : '') + '">' +
     '<div class="sig-main">' +
-      '<div class="sig-label">' + escHtml(sig.label || sig.code) +
+      '<div class="sig-label">' + escHtml(signalLabel(sig)) +
         '<span class="sig-code">' + escHtml(sig.code) + '</span></div>' +
-      '<div class="sig-desc">' + escHtml(sig.description) + '</div>' +
+      '<div class="sig-desc">' + escHtml(signalDescription(sig)) + '</div>' +
       '<div class="sig-meta">' +
-        '<span class="cost-chip ' + costCls + '">' + escHtml(sig.cost_note || 'cost unknown') + '</span>' +
+        '<span class="cost-chip ' + costCls + '">' + escHtml(localizedUi(sig.cost_note || 'cost unknown')) + '</span>' +
         floor + seen + badge(sig.status) +
       '</div>' +
     '</div>' +
@@ -883,24 +893,25 @@ async function loadDiscoverProviders() {
 
   _provider = _provider || data.selected || data.default;
   el.innerHTML = '<div class="prov-grid">' + data.providers.map(p => {
+    const providerUi = field => window.sellbirdProviderText?.(p.key, field, p[field]) ?? p[field];
     const ready = p.configured
       ? '<span class="badge t-good">ready</span>'
       : '<span class="badge t-waiting">needs a key</span>';
     return '<div class="prov-card ' + (p.key === _provider ? 'selected' : '') +
       '" onclick="pickProvider(' + jsq(p.key) + ')">' +
-      '<div class="prov-head"><h3>' + escHtml(p.label) + '</h3>' + ready + '</div>' +
-      '<div class="blurb">' + escHtml(p.blurb) + '</div>' +
+      '<div class="prov-head"><h3>' + escHtml(providerUi('label')) + '</h3>' + ready + '</div>' +
+      '<div class="blurb">' + escHtml(providerUi('blurb')) + '</div>' +
       '<div class="row"><span class="k">Cost</span><span class="v">' +
-        escHtml(p.cost_note) + '</span></div>' +
+        escHtml(providerUi('cost_note')) + '</span></div>' +
       '<div class="row"><span class="k">Free</span><span class="v">' +
-        escHtml(p.free_tier) + '</span></div>' +
+        escHtml(providerUi('free_tier')) + '</span></div>' +
       (p.needs_key
         ? '<div class="row"><span class="k">Setup</span><span class="v">' +
           escHtml(p.env_keys.join(', ')) + ' in .env &middot; ' +
           '<a href="' + safeHref(p.signup_url) + '" target="_blank" rel="noopener noreferrer">get a key</a>' +
           '</span></div>'
         : '') +
-      (p.caveat ? '<div class="caveat">' + escHtml(p.caveat) + '</div>' : '') +
+      (p.caveat ? '<div class="caveat">' + escHtml(providerUi('caveat')) + '</div>' : '') +
     '</div>';
   }).join('') + '</div>';
 
@@ -1099,7 +1110,7 @@ function renderCohortBuilder() {
       '<label class="cohort-pick"><input type="checkbox" ' +
         (_cohort[key].has(s.code) ? 'checked ' : '') +
         'onchange="toggleCohort(\'' + key + '\',' + jsq(s.code) + ',this.checked)">' +
-        '<span>' + escHtml(s.label || s.code) + '</span>' +
+        '<span>' + escHtml(signalLabel(s)) + '</span>' +
         '<span class="n">' + (s.companies || 0) + '</span></label>'
     ).join('') + '</div></div>';
 
@@ -1118,7 +1129,7 @@ function renderCohortBuilder() {
       '&mdash; e.g. organic rank 11 to 30; leave a side blank for no limit</span></div>' +
       '<div class="cohort-grid">' +
       numeric.map(s =>
-        '<div class="cohort-pick cohort-range"><span>' + escHtml(s.label || s.code) + '</span>' +
+        '<div class="cohort-pick cohort-range"><span>' + escHtml(signalLabel(s)) + '</span>' +
           bound(s.code, 'min') + '<span class="muted">to</span>' + bound(s.code, 'max') + '</div>'
       ).join('') + '</div></div>' : '';
 
@@ -2075,7 +2086,7 @@ function renderCompaniesPage(page) {
         '<span class="cell-sub">' + domain + '</span></div></td>' +
       '<td title="' + escHtml((c.fit_reasons || []).join(' · ')) + '">' +
         (typeof c.fit === 'number' ? meterHtml(c.fit) : '') + '</td>' +
-      '<td title="' + escHtml(c.register_why || '') + '">' + escHtml(c.register_status || '') + '</td>' +
+      '<td title="' + escHtml(c.register_why || '') + '">' + escHtml(localizedUi(c.register_status || '')) + '</td>' +
       '<td>' + (c.industry ? '<span class="tag">' + escHtml(c.industry) + '</span>' : '') + '</td>' +
       '<td>' + escHtml(c.location) + '</td>' +
       '<td class="num">' + (c.contact_count || 0) + '</td>' +
