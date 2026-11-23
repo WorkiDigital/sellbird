@@ -1182,8 +1182,9 @@ async function runCohort() {
 
   let html = '<div style="border-top:1px solid var(--border);margin-top:20px;padding-top:20px">' +
     '<div class="cohort-size">' + data.size + '</div>' +
-    '<div class="muted" style="font-size:13px;margin-top:2px">compan' +
-      (data.size === 1 ? 'y matches' : 'ies match') + ' this cohort right now</div>';
+    '<div class="muted" style="font-size:13px;margin-top:2px">' +
+      (dashboardLocale() === 'pt-BR' ? (data.size === 1 ? 'empresa corresponde' : 'empresas correspondem') + ' a este segmento agora' :
+        'compan' + (data.size === 1 ? 'y matches' : 'ies match') + ' this cohort right now') + '</div>';
 
   if (data.companies && data.companies.length) {
     html += '<div class="table-card" style="margin-top:16px"><table><thead><tr>' +
@@ -1198,8 +1199,8 @@ async function runCohort() {
     const first = data.offset + 1, last = data.offset + data.companies.length;
     const hasPrev = data.offset > 0, hasNext = last < data.size;
     html += '<div style="display:flex;align-items:center;gap:8px;margin-top:10px">' +
-      '<span class="muted" style="font-size:12px">Showing ' + first + '&ndash;' + last +
-        ' of ' + data.size + '</span>' +
+      '<span class="muted" style="font-size:12px">' + (dashboardLocale() === 'pt-BR' ? 'Exibindo ' : 'Showing ') + first + '&ndash;' + last +
+        (dashboardLocale() === 'pt-BR' ? ' de ' : ' of ') + data.size + '</span>' +
       '<span style="flex:1"></span>' +
       '<button class="btn btn-secondary btn-sm" onclick="pageCohort(-1)"' +
         (hasPrev ? '' : ' disabled') + '>Prev</button>' +
@@ -1801,8 +1802,12 @@ function sendingModeCard(m) {
   const auto = m.mode === 'autopilot';
   const instantly = m.provider === 'instantly';
   const domains = (m.your_domains || []).map(escHtml).join(', ') || 'none yet';
-  let html = '<div class="card mode-card"><h3>Sending mode: ' + (auto ? 'Autopilot' : 'Approval') + '</h3>' +
-    '<p><b>Approval</b> (the default): every email Sellbird writes, first emails, follow-ups and replies, ' +
+  let html = '<div class="card mode-card"><h3>' +
+    (dashboardLocale() === 'pt-BR' ? 'Modo de envio: ' + (auto ? 'Envio automático' : 'Aprovação') :
+      'Sending mode: ' + (auto ? 'Autopilot' : 'Approval')) + '</h3>' +
+    '<p><b>Approval</b> ' + (dashboardLocale() === 'pt-BR'
+      ? '(padrão): todos os emails do Sellbird, incluindo primeiro contato, acompanhamentos e respostas, '
+      : '(the default): every email Sellbird writes, first emails, follow-ups and replies, ') +
       'waits in the Outbox until you approve it.' +
       (instantly ? ' On Instantly, which can’t hold single emails, that means campaigns aren’t deployed.' : '') + '</p>' +
     '<p><b>Autopilot</b>: Sellbird sends on its own, on schedule, within your daily limit and quiet hours. ' +
@@ -2095,13 +2100,14 @@ function renderCompaniesPage(page) {
   const pager = pages > 1
     ? ' &nbsp; <button class="btn btn-ghost btn-sm" ' + (_companiesPage === 0 ? 'disabled ' : '') +
         'onclick="renderCompaniesPage(' + (_companiesPage - 1) + ')">&larr; Prev</button> ' +
-      'Page ' + (_companiesPage + 1) + ' of ' + pages +
+      (dashboardLocale() === 'pt-BR' ? 'Página ' : 'Page ') + (_companiesPage + 1) + (dashboardLocale() === 'pt-BR' ? ' de ' : ' of ') + pages +
       ' <button class="btn btn-ghost btn-sm" ' + (_companiesPage >= pages - 1 ? 'disabled ' : '') +
         'onclick="renderCompaniesPage(' + (_companiesPage + 1) + ')">Next &rarr;</button>'
     : '';
   el.innerHTML = html + '</tbody></table></div>' +
     '<div class="table-foot">' + (start + 1) + '–' + Math.min(start + COMPANIES_PER_PAGE, data.length) +
-    ' of ' + data.length + ' compan' + (data.length === 1 ? 'y' : 'ies') + pager + '</div>';
+    (dashboardLocale() === 'pt-BR' ? ' de ' + data.length + (data.length === 1 ? ' empresa' : ' empresas') :
+      ' of ' + data.length + ' compan' + (data.length === 1 ? 'y' : 'ies')) + pager + '</div>';
 }
 
 // Basic facts about one company, above its contacts: where it came from,
@@ -2291,7 +2297,8 @@ function renderContacts() {
     if (_optOut.id === p.id) html += '<tr class="detail-row"><td colspan="8">' + optOutPanel(p) + '</td></tr>';
   }
   rowsEl.innerHTML = html + '</tbody></table></div>' +
-    '<div class="table-foot">' + rows.length + ' of ' + _prospects.length + ' contacts</div>';
+    '<div class="table-foot">' + rows.length + (dashboardLocale() === 'pt-BR' ? ' de ' : ' of ') + _prospects.length +
+    (dashboardLocale() === 'pt-BR' ? (_prospects.length === 1 ? ' contato' : ' contatos') : ' contacts') + '</div>';
 }
 
 // Why someone is opted out, and undoing it. Sellbird never moves anyone off
@@ -3100,7 +3107,9 @@ async function loadActivity() {
     html += '<div class="tl-item' + (a.agent === 'main' ? ' quiet' : '') + '"><span class="tl-time">' + timeOfDay(a.created_at) + '</span>' +
       '<span class="tl-icon">' + icon(own(AGENT_ICONS, a.agent) || 'activity') + '</span>' +
       '<span class="tl-text">' + actionText(a) + '</span>' +
-      '<span class="tl-agent">' + escHtml(a.agent) + '</span></div>';
+      '<span class="tl-agent">' + escHtml(dashboardLocale() === 'pt-BR'
+        ? ({scout:'Busca',writer:'Redação',sender:'Envio',handler:'Atendimento',analyst:'Análise',user:'Usuário',main:'Sistema'}[a.agent] || a.agent)
+        : a.agent) + '</span></div>';
   }
   el.innerHTML = html + '</div></div>';
 }
