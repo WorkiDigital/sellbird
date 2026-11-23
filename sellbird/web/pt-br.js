@@ -346,7 +346,394 @@
     'What changed':'O que mudou',
     'Finish setting up Sellbird':'Conclua a configuração do Sellbird',
   };
-  const entries = new Map(Object.entries({...copy, ...extraCopy}).map(([key, value]) => [key.trim(), value.trim()]));
+  // Expanded audit of every dashboard section. UI copy only; external data stays intact.
+  const auditCopy = {
+  "Turned off": "Desativado",
+  "Turn on": "Ativar",
+  "Turn off": "Desativar",
+  "Cost unknown": "Custo desconhecido",
+  "cost unknown": "custo desconhecido",
+  "only recorded above": "registrado apenas acima de",
+  "confidence": "de confiança",
+  "seen on": "identificado em",
+  "so far": "até agora",
+  "Confirm all": "Confirmar todos",
+  "Skip all": "Ignorar todos",
+  "Confirm": "Confirmar",
+  "Skip": "Ignorar",
+  "The dashboard process may have stopped. Restart it with": "O painel pode ter parado. Reinicie-o com",
+  "Dashboard can't reach the server": "O painel não consegue acessar o servidor",
+  "and refresh this page.": "e atualize esta página.",
+  "No matches": "Nenhum resultado",
+  "Nothing matches that search and filter.": "Nenhum contato corresponde à pesquisa e ao filtro.",
+  "Score": "Pontuação",
+  "Status": "Status",
+  "Source": "Fonte",
+  "Added": "Adicionado",
+  "Phone verified": "Telefone verificado",
+  "Fit": "Compatibilidade",
+  "Industry": "Setor",
+  "Location": "Localização",
+  "Contact": "Contato",
+  "Page": "Página",
+  "Prev": "Anterior",
+  "Next": "Próximo",
+  "Next →": "Próximo →",
+  "Why selected": "Por que foi selecionada",
+  "People named on site": "Pessoas mencionadas no site",
+  "Contact form": "Formulário de contato",
+  "Tech on website": "Tecnologias do site",
+  "Other signals": "Outros sinais",
+  "Found via": "Encontrado por",
+  "First found": "Primeira identificação",
+  "search result": "resultado da busca",
+  "Website": "Site",
+  "Sector": "Setor",
+  "Area": "Região",
+  "Registered": "Cadastrado",
+  "Fit score": "Pontuação de compatibilidade",
+  "Campaign": "Campanha",
+  "Campaign name": "Nome da campanha",
+  "Sequence": "Sequência",
+  "Step": "Etapa",
+  "Subject": "Assunto",
+  "Sends": "Envios",
+  "Approved & scheduled": "Aprovados e agendados",
+  "Approved &amp; scheduled": "Aprovados e agendados",
+  "To": "Para",
+  "From": "De",
+  "Time": "Horário",
+  "Date": "Data",
+  "Message": "Mensagem",
+  "Review": "Revisar",
+  "First email": "Primeiro email",
+  "Follow-up": "Acompanhamento",
+  "Untitled Campaign": "Campanha sem nome",
+  "Open in Gmail": "Abrir no Gmail",
+  "I already emailed": "Já enviei um email",
+  "Mark as sent": "Marcar como enviado",
+  "days after the last": "dias após o último",
+  "Outreach": "Prospecção",
+  "Qualifying": "Qualificação",
+  "Presenting": "Apresentação",
+  "Negotiating": "Negociação",
+  "The Writer agent hasn't drafted any sequences. It kicks in automatically once Sellbird has scored prospects to write for.": "O agente de redação ainda não criou sequências. Ele começa automaticamente após avaliar a compatibilidade dos contatos.",
+  "Sellbird won't send follow-ups to people you emailed yourself.": "O Sellbird não enviará acompanhamentos para contatos que você abordou manualmente.",
+  "Anything Sellbird should know before writing to this person?": "Algo que o Sellbird precisa saber antes de escrever para este contato?",
+  "What should Sellbird do differently in the emails it writes next? (e.g. \"shorter; don't mention reviews\")": "O que o Sellbird deve mudar nos próximos emails? (Ex.: mais curtos; não mencionar avaliações.)",
+  "No contacts yet": "Ainda não há contatos",
+  "Sellbird hasn't found any prospects. Once it's running, the Scout agent searches the web for people matching your ideal customer profile in": "O Sellbird ainda não encontrou contatos. Quando estiver em execução, o agente de busca procurará na web pessoas compatíveis com seu cliente ideal em",
+  "Why?": "Por quê?",
+  "Opt-out history": "Histórico de descadastro",
+  "What made Sellbird stop emailing them": "O que levou o Sellbird a parar de enviar emails",
+  "Leave feedback on this contact": "Enviar avaliação sobre este contato",
+  "Why Sellbird stopped emailing": "Por que o Sellbird parou de enviar emails para",
+  "Opt-out history for": "Histórico de descadastro de",
+  "They opted out before Sellbird kept a record of why.": "O contato se descadastrou antes de o Sellbird registrar o motivo.",
+  "The last thing they wrote:": "A última mensagem foi:",
+  "There's no reply from them on file.": "Não há respostas registradas desse contato.",
+  "Their reply was only an opt-out word": "A resposta continha apenas uma palavra de descadastro",
+  "The model’s judgement (no phrase matched)": "Avaliação do modelo (nenhuma expressão identificada)",
+  "Matched an opt-out phrase": "Identificada uma expressão de descadastro",
+  "Matched “no thanks”": "Identificada a expressão «não, obrigado»",
+  "Read websites": "Analisar sites",
+  "Busy…": "Ocupado…",
+  "Starting…": "Iniciando…",
+  "Every site is already read.": "Todos os sites já foram analisados.",
+  "Could not start.": "Não foi possível iniciar.",
+  "Could not estimate.": "Não foi possível estimar o custo.",
+  "Could not stop.": "Não foi possível parar.",
+  "Pricing it…": "Calculando custo…",
+  "Finished reading websites.": "Análise dos sites concluída.",
+  "Discovery finished.": "Busca concluída.",
+  "Discovery started —": "Busca iniciada —",
+  "Websites read": "Sites analisados",
+  "Facts recorded": "Informações registradas",
+  "New companies": "Novas empresas",
+  "Already known": "Já conhecidas",
+  "Observations": "Observações",
+  "Filtered as junk": "Descartadas por baixa qualidade",
+  "Actual cost": "Custo real",
+  "Stopped early:": "Interrompido antes de concluir:",
+  "Problems": "Problemas",
+  "Over cap": "Acima do limite",
+  "Run — free": "Executar — grátis",
+  "Run — spend up to $": "Executar — gastar até US$ ",
+  "Over your cap. Raise the cap or narrow the search.": "Acima do limite de gastos. Aumente o limite ou reduza a pesquisa.",
+  "cap is $": "limite de US$ ",
+  "more": "a mais",
+  "… and": "… e",
+  "in .env ·": "no .env ·",
+  "get a key": "obter uma chave",
+  "Setup": "Configuração",
+  "Read their sites": "Analisar sites",
+  "Confirm some signals above and they become the building blocks here.": "Confirme alguns sinais acima para poder usá-los como critérios.",
+  "In range": "Dentro do intervalo",
+  "to": "até",
+  "disqualifiers": "critérios de exclusão",
+  "every company in the cohort carries all of these": "todas as empresas do segmento atendem a estes critérios",
+  "e.g. organic rank 11 to 30; leave a side blank for no limit": "ex.: posição orgânica de 11 a 30; deixe um campo vazio para não limitar",
+  "No company carries all of those yet. Either loosen the cohort, or run": "Nenhuma empresa atende a todos os critérios. Reduza os filtros ou execute",
+  "prospecting to collect more.": "a prospecção para encontrar mais.",
+  "company matches": "empresa corresponde",
+  "companies match": "empresas correspondem",
+  "this cohort right now": "a este segmento agora",
+  "Showing": "Exibindo",
+  "Free, no account needed. Sellbird reads each site for": "Grátis e sem necessidade de conta. O Sellbird analisa os sites para identificar",
+  "who their agency is, what they are missing, and whether they run ads. Up to 200 per run.": "qual agência os atende, possíveis lacunas e se fazem anúncios. Até 200 por execução.",
+  "Sellbird is working through the": "O Sellbird está processando as",
+  "queries. Results land in Companies, and the run log is on Today.": "consultas. Os resultados aparecem em Empresas e o registro da execução fica em Hoje.",
+  "in .env": "no .env",
+  "ready": "pronto",
+  "needs a key": "precisa de uma chave",
+  "Not connected": "Não conectado",
+  "Connected": "Conectado",
+  "Approval mode": "Modo de aprovação",
+  "Sending mode:": "Modo de envio:",
+  "Approved": "Aprovado",
+  "Autopilot": "Envio automático",
+  "Every email Sellbird writes waits here until you approve it.": "Cada email criado pelo Sellbird fica aguardando sua aprovação antes do envio.",
+  "Instantly can’t hold single emails, so campaigns aren’t sent to Instantly until you turn on autopilot.": "O Instantly não permite reter emails individuais; as campanhas não serão enviadas até você ativar o envio automático.",
+  "Auto-send": "Envio automático",
+  "Safe mode": "Modo seguro",
+  "Approval (the default): every email Sellbird writes, first emails, follow-ups and replies,": "Aprovação (padrão): cada email do Sellbird, incluindo o primeiro contato, acompanhamentos e respostas,",
+  "waits in the Outbox until you approve it.": "aguarda na Caixa de saída até você aprovar.",
+  "On Instantly, which can’t hold single emails, that means campaigns aren’t deployed.": "No Instantly, que não retém emails individuais, isso significa que as campanhas não são ativadas.",
+  "Sellbird sends email on its own. It holds anything that links to a site that isn’t yours or": "O Sellbird envia emails automaticamente. Ele retém mensagens com links para sites que não são seus ou",
+  "quotes its own instructions; those wait here": "que reproduzam suas próprias instruções; essas mensagens aguardam aqui",
+  "Opt-outs, bounces and Pause all sending work the same. It still holds an email for you when it links": "Descadastros, devoluções e Pausar todos os envios continuam funcionando. Um email será retido se contiver link",
+  "to, or gives an address at, a site that isn’t yours, or quotes Sellbird’s own instructions: text from": "ou endereço de um site que não é seu, ou reproduzir instruções internas do Sellbird: textos de",
+  "websites and replies can try to steer what it writes. The first reply after you undo an opt-out waits too.": "sites e respostas podem tentar influenciar a redação. A primeira resposta após reverter um descadastro também fica retida.",
+  "Counted as yours:": "Considerados seus:",
+  "your booking page": "sua página de agendamento",
+  "Turning it off works at once: emails autopilot": "A desativação é imediata: emails que o envio automático",
+  "approved that haven’t gone out come back to the Outbox.": "aprovou e ainda não enviou voltam para a Caixa de saída.",
+  "Campaigns already on Instantly keep running until you pause them there.": "Campanhas já em execução no Instantly continuam até você pausá-las lá.",
+  "Approve a batch or two by hand first": "Aprove manualmente alguns lotes antes",
+  "and read what Sellbird writes. Type": "e confira os textos do Sellbird. Digite",
+  "Autopilot is on from Sellbird’s next cycle. Held emails still wait for you.": "O envio automático será ativado no próximo ciclo do Sellbird. Emails retidos ainda aguardam sua aprovação.",
+  "Autopilot is off. Every email waits for you": "Envio automático desativado. Todos os emails aguardam sua aprovação",
+  "Campaigns already on Instantly keep running: pause them in Instantly.": "Campanhas em execução no Instantly continuam ativas: pause-as no Instantly.",
+  "Couldn’t change the sending mode.": "Não foi possível mudar o modo de envio.",
+  "Sending paused.": "Envio pausado.",
+  "Sending resumed.": "Envio retomado.",
+  "Could not pause sending.": "Não foi possível pausar os envios.",
+  "Could not resume sending.": "Não foi possível retomar os envios.",
+  "Paused all sending": "Todos os envios pausados",
+  "Save": "Salvar",
+  "Saving…": "Salvando…",
+  "Saved": "Salvo",
+  "Saved. Now sign in on the Inboxes tab.": "Salvo. Agora faça login na aba Caixas de entrada.",
+  "SMTP settings saved.": "Configurações SMTP salvas.",
+  "Instantly API key saved.": "Chave de API do Instantly salva.",
+  "Enter a new key first. The saved one is kept.": "Digite uma nova chave. A chave salva será mantida.",
+  "TrulyInbox connected": "TrulyInbox conectado",
+  "Could not connect TrulyInbox": "Não foi possível conectar o TrulyInbox",
+  "Main mailbox": "Caixa principal",
+  "Add inbox": "Adicionar caixa de email",
+  "Sign in with": "Entrar com",
+  "Sign in as": "Entrar como",
+  "Not connected. Sign in to the mailbox Sellbird sends from.": "Não conectado. Entre na caixa de email usada pelo Sellbird para enviar mensagens.",
+  "Open Settings": "Abrir Configurações",
+  "Sender name (optional)": "Nome do remetente (opcional)",
+  "Warming up since (optional)": "Em aquecimento desde (opcional)",
+  "Sender name": "Nome do remetente",
+  "Connect an inbox you already own. Sellbird sends from it and reads its replies.": "Conecte uma caixa de email sua. O Sellbird enviará emails por ela e lerá suas respostas.",
+  "Sending through several of your own inboxes works with Gmail, Microsoft 365 or SMTP.": "O envio por várias caixas funciona com Gmail, Microsoft 365 e SMTP.",
+  "Set channels.email.provider in sellbird.yaml to one of those to use it.": "Defina channels.email.provider no sellbird.yaml como uma dessas opções.",
+  "cold emails sent today": "emails de prospecção enviados hoje",
+  "Each inbox sends up to": "Cada caixa envia até",
+  "cold emails a day. Two inboxes, twice as many, all under your daily total of": "emails de prospecção por dia. Com duas caixas, a capacidade dobra, respeitando seu limite diário de",
+  "Campaigns that haven't chosen inboxes send from all of them.": "Campanhas sem caixas selecionadas enviam por todas as disponíveis.",
+  "Sellbird can't sign in to it from this computer. Check the connection to see why, or remove it and add it again.": "O Sellbird não consegue entrar nesta caixa por este computador. Verifique a conexão ou remova e adicione novamente.",
+  "Your main mailbox comes from sellbird.yaml:": "Sua caixa principal é configurada no sellbird.yaml:",
+  "all sending, on the Outbox tab.": "todos os envios, na aba Caixa de saída.",
+  "Inbox paused": "Caixa pausada",
+  "Inbox sends again": "Envios da caixa retomados",
+  "Cap saved": "Limite salvo",
+  "Name saved": "Nome salvo",
+  "Inbox removed": "Caixa removida",
+  "Checking the connection...": "Verificando a conexão...",
+  "Couldn’t check it.": "Não foi possível verificar.",
+  "It's connected, but the check failed:": "Está conectada, mas a verificação falhou:",
+  "The sign-in didn't finish.": "O login não foi concluído.",
+  "Sign in as your sending address and allow access. This page updates when you're done.": "Entre com o endereço usado para envio e autorize o acesso. Esta página será atualizada ao concluir.",
+  "You closed a conversation": "Você encerrou uma conversa",
+  "You handed a conversation back to Sellbird": "Você devolveu uma conversa ao Sellbird",
+  "You reopened a conversation": "Você reabriu uma conversa",
+  "You edited a draft": "Você editou um rascunho",
+  "You undid a hand-sent mark": "Você desfez a marcação de envio manual",
+  "You marked a contact as emailed by hand": "Você marcou um contato como abordado manualmente",
+  "Sellbird hasn't taken any actions. Every prospect found, email written, and reply handled will appear here the moment it happens.": "O Sellbird ainda não realizou ações. Contatos encontrados, emails escritos e respostas tratadas aparecerão aqui.",
+  "Heartbeat:": "Ciclo de execução:",
+  "Wrote": "Escreveu",
+  "Sent email": "Enviou email",
+  "No recent activity": "Nenhuma atividade recente",
+  "Team page": "Página da equipe",
+  "Published address": "Endereço publicado",
+  "Job board": "Página de vagas",
+  "Web search": "Pesquisa na web",
+  "Company inbox": "Caixa da empresa",
+  "Signal confirmed": "Sinal confirmado",
+  "none yet": "ainda nenhuma",
+  "Never": "Nunca",
+  "View": "Visualizar",
+  "Details": "Detalhes",
+  "Last run": "Última execução"
+};
+  const signalCatalogPt = {
+  "SERP_RANK": {
+    "label": "Posição no Google (busca orgânica)",
+    "description": "Posição da empresa na busca orgânica por serviço e cidade. As posições 11–30 costumam indicar oportunidades: a empresa já aparece, mas ainda pode melhorar. A posição depende da localização de quem pesquisa."
+  },
+  "IN_LOCAL_PACK": {
+    "label": "Entre os 3 primeiros resultados locais",
+    "description": "Indica se a empresa aparece entre as três posições do mapa exibido nos resultados locais do Google, sem contar anúncios."
+  },
+  "MAPS_RANK": {
+    "label": "Posição no Google Maps",
+    "description": "Posição da empresa nos resultados do Google Maps para um serviço e uma cidade, pesquisando a partir do centro da cidade."
+  },
+  "FOUND_IN_SERP": {
+    "label": "Encontrada por pesquisa",
+    "description": "A empresa apareceu em uma pesquisa do mercado-alvo, indicando como o Sellbird a encontrou."
+  },
+  "NO_WEBSITE": {
+    "label": "Empresa sem site",
+    "description": "A empresa possui cadastro e telefone, mas não tem site. É um sinal útil para quem oferece criação de sites."
+  },
+  "UNCLAIMED_LISTING": {
+    "label": "Perfil da Empresa no Google não reivindicado",
+    "description": "Ninguém assumiu a administração do Perfil da Empresa no Google; pode indicar oportunidade de marketing local."
+  },
+  "REVIEW_RATING": {
+    "label": "Nota das avaliações",
+    "description": "Média de estrelas da empresa. Notas baixas podem indicar problemas de reputação; notas altas com poucas avaliações podem indicar baixa visibilidade."
+  },
+  "REVIEW_COUNT": {
+    "label": "Quantidade de avaliações",
+    "description": "Total de avaliações recebidas. Pode indicar o porte e a atenção à presença digital."
+  },
+  "INCUMBENT_AGENCY": {
+    "label": "Possui agência de marketing ou web",
+    "description": "Identifica a agência citada no rodapé do site, quando houver atribuição explícita. Ajuda a entender se a empresa já tem fornecedor."
+  },
+  "RUNNING_GOOGLE_ADS": {
+    "label": "Anuncia no Google Ads",
+    "description": "Presença de tag do Google Ads no site, um indício de investimento em aquisição de clientes."
+  },
+  "RUNNING_META_ADS": {
+    "label": "Anuncia no Meta Ads",
+    "description": "Presença do Meta Pixel no site, possível indício de investimento em anúncios nas redes sociais."
+  },
+  "TECH_STACK": {
+    "label": "Plataforma e ferramentas do site",
+    "description": "Tecnologias usadas pelo site, como WordPress, Shopify, HubSpot, ferramentas de chat e agendamento."
+  },
+  "NO_SCHEMA_MARKUP": {
+    "label": "Sem dados estruturados",
+    "description": "Não foi identificado Schema JSON-LD no site, uma oportunidade verificável de SEO."
+  },
+  "NO_ONLINE_BOOKING": {
+    "label": "Sem agendamento online",
+    "description": "Nenhuma ferramenta de agendamento foi identificada; contatos fora do horário comercial podem ser perdidos."
+  },
+  "SITE_PAGE_COUNT": {
+    "label": "Quantidade de páginas do site",
+    "description": "Quantidade de páginas encontradas no sitemap.xml. Pode indicar o tamanho e a manutenção do site."
+  },
+  "BLOG_STALE": {
+    "label": "Conteúdo desatualizado",
+    "description": "Não foram encontrados conteúdos recentes no site; pode indicar que o marketing de conteúdo foi interrompido."
+  },
+  "BLOCKS_AI_CRAWLERS": {
+    "label": "Bloqueia rastreadores de IA",
+    "description": "O arquivo robots.txt bloqueia robôs de IA, o que pode reduzir a presença em mecanismos de busca baseados em IA."
+  },
+  "YC_BACKED": {
+    "label": "Apoiada pela Y Combinator",
+    "description": "O site da empresa informa que ela participou da Y Combinator, com menção à turma, selo ou página da aceleradora."
+  },
+  "ACCELERATOR": {
+    "label": "Participou de aceleradora",
+    "description": "O site informa que a empresa participou de um programa de aceleração, como Techstars, Antler ou similares."
+  },
+  "FUNDING_ROUND": {
+    "label": "Anunciou rodada de investimento",
+    "description": "A empresa anunciou captação de recursos em seu site, com rodada, valor e data quando disponíveis."
+  },
+  "HIRING_ROLE": {
+    "label": "Contratando para cargo relevante",
+    "description": "Vaga aberta que corresponde aos cargos definidos para o cliente ideal, identificada no site ou na página de carreiras."
+  },
+  "OPEN_ROLES": {
+    "label": "Vagas abertas na empresa",
+    "description": "Quantidade de oportunidades publicadas nos sistemas de vagas vinculados ao site da empresa."
+  },
+  "CONTACT_FOUND": {
+    "label": "Contato identificado pelo nome",
+    "description": "Pessoa citada na página da equipe ou sobre a empresa, com nome e cargo."
+  },
+  "DECISION_MAKER_TITLE": {
+    "label": "Cargo de tomador de decisão",
+    "description": "O cargo indica possível poder de decisão, como proprietário, presidente, gestor ou diretor de marketing."
+  },
+  "REGISTRY_VERIFIED": {
+    "label": "Confirmado em registro público",
+    "description": "O contato foi identificado em cadastro público oficial ou registro profissional."
+  },
+  "LIKELY_OWNER": {
+    "label": "Provavelmente proprietário",
+    "description": "O site indica que a pessoa é proprietária ou fundadora, com evidências do vínculo."
+  },
+  "EMAIL_PATTERN": {
+    "label": "Padrão de email da empresa",
+    "description": "Formato dos emails do domínio, como nome.sobrenome@empresa.com."
+  },
+  "EMAIL_STATUS": {
+    "label": "Capacidade de entrega do email",
+    "description": "Verifica se o endereço é válido, aceita qualquer destinatário, ainda não foi verificado ou é inválido."
+  },
+  "CONTACT_FORM_URL": {
+    "label": "Formulário de contato disponível",
+    "description": "A empresa possui formulário no site, permitindo contato mesmo sem endereço de email validado."
+  }
+};
+  const providerCatalogPt = {
+  "dataforseo_listings": {
+    "blurb": "Encontra empresas por categoria e região, incluindo telefone, site, avaliações e informação sobre o cadastro no Google. Útil para negócios locais, clínicas e prestadores de serviços.",
+    "caveat": "Não fornece endereços de email; o Sellbird procura os contatos em outra etapa."
+  },
+  "dataforseo_serp": {
+    "blurb": "Pesquisa serviços e cidades, registra as posições orgânicas e os três principais resultados locais. Encontra empresas e mede seu posicionamento.",
+    "caveat": "A profundidade da busca influencia o custo. Posições dependem da localização de quem pesquisa; os resultados representam a busca a partir do centro da cidade."
+  },
+  "dataforseo_maps": {
+    "blurb": "Pesquisa empresas no Google Maps e registra posição, avaliação, categoria e se o cadastro foi reivindicado, inclusive negócios sem site.",
+    "caveat": "A posição no mapa depende muito do local de pesquisa. O Sellbird usa o centro da cidade como referência."
+  },
+  "serper": {
+    "blurb": "Pesquisa rápida no Google com posições nos resultados. Oferece 2.500 consultas gratuitas e requer apenas uma chave de API.",
+    "caveat": "Retorna no máximo 10 resultados por consulta, mesmo quando uma profundidade maior é solicitada."
+  },
+  "tinyfish": {
+    "blurb": "Pesquisa gratuita na web com chave de API. Encontra empresas por expressão, mas não registra posição no Google.",
+    "caveat": "Exige TINYFISH_API_KEY no .env. O serviço tem limites de uso por minuto e hora; para posições no Google, use Serper ou DataForSEO SERP."
+  },
+  "osm": {
+    "blurb": "Dados públicos gratuitos de mapas. Não exige cadastro, chave ou cartão. Permite testar a prospecção antes de contratar um provedor.",
+    "caveat": "A cobertura é limitada para serviços sem endereço físico. É boa para testes e cruzamento de dados, mas não representa um cadastro completo."
+  },
+  "scavio_maps": {
+    "blurb": "Resultados do Google Maps por cidade, incluindo telefone, site, categoria, nota e quantidade de avaliações. Até 120 empresas por busca.",
+    "caveat": "O Google Maps não informa se o cadastro foi reivindicado. Usa a mesma chave do Scavio Google Search."
+  },
+  "scavio_search": {
+    "blurb": "Resultados orgânicos do Google com posições. A mesma chave Scavio também permite pesquisar empresas no Google Maps.",
+    "caveat": "Os resultados usam o Google em inglês dos EUA, a menos que a busca indique outra localidade. Profundidade de 20 a 30 é um bom equilíbrio."
+  }
+};
+  const entries = new Map(Object.entries({...copy, ...extraCopy, ...auditCopy}).map(([key, value]) => [key.trim(), value.trim()]));
   const attrs = ['placeholder', 'title', 'aria-label'];
   const patterns = [
     [/^(\d+) of (\d+) done$/, (_, done, total) => `${done} de ${total} concluídas`],
@@ -428,6 +815,14 @@
     for (const child of root.childNodes) localize(child);
   }
 
+  window.sellbirdTranslateUi = (value) => {
+    if (language !== 'pt-BR' || typeof value !== 'string') return value;
+    return translate(value) ?? value;
+  };
+  window.sellbirdSignalText = (code, field, fallback) =>
+    language === 'pt-BR' ? (signalCatalogPt[code]?.[field] ?? window.sellbirdTranslateUi(fallback)) : fallback;
+  window.sellbirdProviderText = (key, field, fallback) =>
+    language === 'pt-BR' ? (providerCatalogPt[key]?.[field] ?? window.sellbirdTranslateUi(fallback)) : fallback;
   window.sellbirdGetLanguage = () => language;
   window.sellbirdSetLanguage = (next) => {
     if (next !== 'pt-BR' && next !== 'en') return;
