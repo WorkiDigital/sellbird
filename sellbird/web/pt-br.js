@@ -288,9 +288,83 @@
     'Autopilot sends the rest on its own; these wait for you. Read them one at a time.':'O envio automático cuida dos demais; estes aguardam sua decisão. Leia cada email antes de decidir.',
     'People replied. Check how Sellbird is handling them.':'Há respostas recebidas. Veja como o Sellbird está lidando com elas.',
   };
-  const entries = new Map(Object.entries(copy).map(([key, value]) => [key.trim(), value.trim()]));
+  // Additional UI copy, including setup checks returned by the backend.
+  // Keep internal state values, customer-authored content, email bodies and commands untranslated.
+  const extraCopy = {
+    'Language':'Idioma',
+    'Choose the language used in the dashboard. This setting is saved in your browser.':'Escolha o idioma do painel. Esta preferência fica salva no navegador.',
+    'Python virtual environment':'Ambiente virtual Python',
+    'Environment file (.env)':'Arquivo de ambiente (.env)',
+    'Email provider configured (gmail)':'Provedor de email configurado (Gmail)',
+    'Email provider configured (microsoft)':'Provedor de email configurado (Microsoft)',
+    'Email provider configured (smtp)':'Provedor de email configurado (SMTP)',
+    'Email provider configured (instantly)':'Provedor de email configurado (Instantly)',
+    'Email verification key':'Chave de verificação de email',
+    'Sellbird configured (sellbird.local.yaml)':'Sellbird configurado (sellbird.local.yaml)',
+    'Product knowledge trained':'Conhecimento do produto treinado',
+    'Warm up your mailbox':'Aqueça sua caixa de email',
+    'Add your Google OAuth client ID and secret in Settings, then sign in on the Inboxes tab (or run \'sellbird gmail auth\').':'Adicione o ID e o segredo do cliente OAuth do Google em Configurações e entre na aba Caixas de entrada (ou execute \'sellbird gmail auth\').',
+    'A new mailbox needs 2–4 weeks of warmup before cold email, and warmup keeps it out of spam after that. We recommend TrulyInbox: connect it and Sellbird shows whether your mailbox is warmed.':'Uma nova caixa de email precisa de 2 a 4 semanas de aquecimento antes da prospecção. Recomendamos conectar o TrulyInbox para acompanhar o aquecimento e reduzir o risco de spam.',
+    'A new mailbox needs 2-4 weeks of warmup before cold email, and warmup keeps it out of spam after that. We recommend TrulyInbox: connect it and Sellbird shows whether your mailbox is warmed.':'Uma nova caixa de email precisa de 2 a 4 semanas de aquecimento antes da prospecção. Recomendamos conectar o TrulyInbox para acompanhar o aquecimento e reduzir o risco de spam.',
+    'Sellbird starts finding prospects and sending once these are done.':'O Sellbird começa a encontrar contatos e enviar emails quando estas etapas forem concluídas.',
+    'Contacts found':'Contatos encontrados',
+    'Emails sent':'Emails enviados',
+    'Contacts found per day, last 14 days':'Contatos encontrados por dia, últimos 14 dias',
+    'Emails sent per day, last 14 days':'Emails enviados por dia, últimos 14 dias',
+    'New replies per day, last 14 days':'Novas respostas por dia, últimos 14 dias',
+    'Waiting on you':'Aguardando você',
+    'last 14 days ·':'últimos 14 dias ·',
+    'this week':'esta semana',
+    'nothing to approve':'nada para aprovar',
+    'scheduled':'agendados',
+    'new in 14 days':'novas em 14 dias',
+    'to approve':'para aprovar',
+    'handed to you':'encaminhados para você',
+    'optional':'opcional',
+    'companies':'empresas',
+    'sites not read yet':'sites ainda não analisados',
+    'signals on':'sinais ativos',
+    'just now':'agora mesmo',
+    'No contacts yet. Scout adds them as it finds people.':'Ainda não há contatos. O agente de busca os adiciona conforme os encontra.',
+    "Couldn't read the pipeline.":'Não foi possível consultar o funil.',
+    'To write':'Para escrever',
+    'Ready to meet':'Pronto para reunião',
+    'Closed out':'Encerrado',
+    'Nothing yet. Every action Sellbird takes shows up here.':'Ainda não há atividades. Todas as ações do Sellbird aparecem aqui.',
+    'Instantly tracks sends':'O Instantly acompanha os envios',
+    'No activity yet':'Ainda não há atividades',
+    'Add your Google OAuth client ID and secret in Settings':'Adicione o ID e o segredo do cliente OAuth do Google em Configurações',
+    'No prospecting yet':'Ainda não há prospecção',
+    'Main mailbox connected':'Caixa principal conectada',
+    'Open Settings':'Abrir Configurações',
+    'Opening the sign-in...':'Abrindo a autenticação...',
+    'That didn\'t work.':'Não foi possível concluir a operação.',
+    'The sign-in didn\'t finish.':'A autenticação não foi concluída.',
+    'Connect':'Conectar',
+    'Get TrulyInbox':'Obter TrulyInbox',
+    'I use another service':'Uso outro serviço',
+    'What changed':'O que mudou',
+    'Finish setting up Sellbird':'Conclua a configuração do Sellbird',
+  };
+  const entries = new Map(Object.entries({...copy, ...extraCopy}).map(([key, value]) => [key.trim(), value.trim()]));
   const attrs = ['placeholder', 'title', 'aria-label'];
   const patterns = [
+    [/^(\d+) of (\d+) done$/, (_, done, total) => `${done} de ${total} concluídas`],
+    [/^(\d+) optional$/, (_, n) => `${n} opcionais`],
+    [/^Email provider configured \(([^)]+)\)$/, (_, provider) => `Provedor de email configurado (${provider})`],
+    [/^(\d+) new in (\d+) days$/, (_, n, d) => `${n} novas em ${d} dias`],
+    [/^new in (\d+) days$/, (_, d) => `novas em ${d} dias`],
+    [/^last (\d+) days ·$/, (_, d) => `últimos ${d} dias ·`],
+    [/^last (\d+) days$/, (_, d) => `últimos ${d} dias`],
+    [/^(\d+) to approve$/, (_, n) => `${n} para aprovar`],
+    [/^(\d+) handed to you$/, (_, n) => `${n} encaminhados para você`],
+    [/^(\d+) companies$/, (_, n) => `${n} empresas`],
+    [/^(\d+) sites not read yet$/, (_, n) => `${n} sites ainda não analisados`],
+    [/^(\d+) signals on$/, (_, n) => `${n} sinais ativos`],
+    [/^(\d+)m ago$/, (_, n) => `há ${n} min`],
+    [/^(\d+)h ago$/, (_, n) => `há ${n} h`],
+    [/^in (\d+)m$/, (_, n) => `em ${n} min`],
+    [/^in (\d+)h$/, (_, n) => `em ${n} h`],
     [/^Review the (\d+) draft\(s\) waiting in the Outbox\.$/, (_, n) => `Revise os ${n} rascunhos na Caixa de saída.`],
     [/^Open Campaigns and send the (\d+) unsent email\(s\)\.$/, (_, n) => `Abra Campanhas e envie os ${n} emails pendentes.`],
     [/^Find emails for the (\d+) businesses not checked yet\.$/, (_, n) => `Encontre emails das ${n} empresas ainda não verificadas.`],
@@ -310,28 +384,66 @@
     }
     return null;
   }
+  // Preserve original English strings to support switching back without a page reload.
+  // For DOM nodes rewritten by Sellbird, treat their new value as fresh source text.
+  const nodeSources = new WeakMap();
+  const attrSources = new WeakMap();
+  const SKIP = 'script,style,code,kbd,.log-viewer,textarea,[contenteditable],.desk-body,.tl-text';
+  let language = 'pt-BR';
+  try {
+    language = localStorage.getItem('sellbird-language') === 'en' ? 'en' : 'pt-BR';
+  } catch { /* browser may block local storage */ }
+
+  function translatedValue(original) {
+    if (language !== 'pt-BR') return original;
+    const translation = translate(original);
+    if (translation === null) return original;
+    return (original.match(/^\s*/)?.[0] || '') + translation +
+      (original.match(/\s*$/)?.[0] || '');
+  }
+
   function localize(root) {
     if (root.nodeType === Node.TEXT_NODE) {
-      if (root.parentElement?.closest('script,style,code,kbd,.log-viewer,textarea,[contenteditable],.desk-body,.tl-text')) return;
-      const translated = translate(root.nodeValue);
-      if (translated !== null && translated !== root.nodeValue) {
-        const leading = root.nodeValue.match(/^\s*/)[0];
-        const trailing = root.nodeValue.match(/\s*$/)[0];
-        root.nodeValue = leading + translated + trailing;
-      }
+      if (root.parentElement?.closest(SKIP)) return;
+      const current = root.nodeValue;
+      const previous = nodeSources.get(root);
+      const original = previous && previous.rendered === current ? previous.original : current;
+      const rendered = translatedValue(original);
+      nodeSources.set(root, {original, rendered});
+      if (rendered !== current) root.nodeValue = rendered;
       return;
     }
-    if (root.nodeType !== Node.ELEMENT_NODE) return;
-    if (root.matches('script,style,code,kbd,textarea,[contenteditable]')) return;
+    if (root.nodeType !== Node.ELEMENT_NODE || root.matches(SKIP)) return;
+    let remembered = attrSources.get(root);
+    if (!remembered) { remembered = new Map(); attrSources.set(root, remembered); }
     for (const attr of attrs) {
-      const value = root.getAttribute(attr);
-      if (value !== null) {
-        const translated = translate(value);
-        if (translated !== null && translated !== value) root.setAttribute(attr, translated);
-      }
+      const current = root.getAttribute(attr);
+      if (current === null) { remembered.delete(attr); continue; }
+      const previous = remembered.get(attr);
+      const original = previous && previous.rendered === current ? previous.original : current;
+      const rendered = translatedValue(original);
+      remembered.set(attr, {original, rendered});
+      if (rendered !== current) root.setAttribute(attr, rendered);
     }
     for (const child of root.childNodes) localize(child);
   }
+
+  window.sellbirdGetLanguage = () => language;
+  window.sellbirdSetLanguage = (next) => {
+    if (next !== 'pt-BR' && next !== 'en') return;
+    language = next;
+    try { localStorage.setItem('sellbird-language', language); } catch { /* ignore */ }
+    document.documentElement.lang = language;
+    const selector = document.getElementById('ui-language');
+    if (selector) selector.value = language;
+    localize(document.body);
+    // Re-render dates and API-driven screens using the chosen locale.
+    if (typeof window.loadCurrentTab === 'function') window.loadCurrentTab();
+  };
+
+  document.documentElement.lang = language;
+  const selector = document.getElementById('ui-language');
+  if (selector) selector.value = language;
   localize(document.body);
   const observer = new MutationObserver(records => {
     for (const record of records) {
