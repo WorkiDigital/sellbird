@@ -10,6 +10,11 @@ let _desk = { items: [], i: 0 };
 // dashboard matches the rest of your machine until you deliberately override
 // it. Stored per-browser; nothing is sent anywhere.
 
+// The dashboard language lives in the browser and is independent of API values.
+function dashboardLocale() {
+  return window.sellbirdGetLanguage?.() === 'en' ? 'en-US' : 'pt-BR';
+}
+
 const THEMES = ['auto', 'light', 'dark'];
 
 function applyTheme(mode) {
@@ -153,7 +158,7 @@ function formatDate(d) {
     if (/^\d{4}-\d\d-\d\dT/.test(t) && !/[zZ]$|[+-]\d\d:?\d\d$/.test(t)) t += 'Z';  // stored UTC
     const dt = new Date(t);
     if (isNaN(dt)) return escHtml(d);
-    return dt.toLocaleString('pt-BR', {month:'short',day:'numeric',hour:'numeric',minute:'2-digit'});
+    return dt.toLocaleString(dashboardLocale(), {month:'short',day:'numeric',hour:'numeric',minute:'2-digit'});
   } catch { return escHtml(d); }
 }
 
@@ -184,15 +189,16 @@ function relTime(d) {
   const dt = parseTs(d);
   if (isNaN(dt)) return escHtml(d);
   const mins = Math.round((Date.now() - dt) / 60000);
-  if (mins < -1 && mins > -60) return 'in ' + -mins + 'm';
-  if (mins < -1 && mins > -60 * 24) return 'in ' + Math.round(-mins / 60) + 'h';
-  if (mins >= -1 && mins < 1) return 'just now';
-  if (mins >= 1 && mins < 60) return mins + 'm ago';
-  if (mins >= 60 && mins < 60 * 24) return Math.round(mins / 60) + 'h ago';
-  if (mins >= 60 * 24 && mins < 60 * 48) return 'Yesterday';
+  const english = dashboardLocale() === 'en-US';
+  if (mins < -1 && mins > -60) return english ? 'in ' + -mins + 'm' : 'em ' + -mins + ' min';
+  if (mins < -1 && mins > -60 * 24) return english ? 'in ' + Math.round(-mins / 60) + 'h' : 'em ' + Math.round(-mins / 60) + ' h';
+  if (mins >= -1 && mins < 1) return english ? 'just now' : 'agora mesmo';
+  if (mins >= 1 && mins < 60) return english ? mins + 'm ago' : 'há ' + mins + ' min';
+  if (mins >= 60 && mins < 60 * 24) return english ? Math.round(mins / 60) + 'h ago' : 'há ' + Math.round(mins / 60) + ' h';
+  if (mins >= 60 * 24 && mins < 60 * 48) return english ? 'Yesterday' : 'Ontem';
   const opts = {month: 'short', day: 'numeric'};
   if (dt.getFullYear() !== new Date().getFullYear()) opts.year = 'numeric';
-  return dt.toLocaleDateString('pt-BR', opts);
+  return dt.toLocaleDateString(dashboardLocale(), opts);
 }
 
 function dayLabel(d) {
@@ -201,14 +207,14 @@ function dayLabel(d) {
   const today = new Date(); today.setHours(0, 0, 0, 0);
   const that = new Date(dt); that.setHours(0, 0, 0, 0);
   const diff = Math.round((today - that) / 86400000);
-  if (diff === 0) return 'Today';
-  if (diff === 1) return 'Yesterday';
-  return dt.toLocaleDateString('pt-BR', {weekday: 'long', month: 'short', day: 'numeric'});
+  if (diff === 0) return dashboardLocale() === 'en-US' ? 'Today' : 'Hoje';
+  if (diff === 1) return dashboardLocale() === 'en-US' ? 'Yesterday' : 'Ontem';
+  return dt.toLocaleDateString(dashboardLocale(), {weekday: 'long', month: 'short', day: 'numeric'});
 }
 
 function timeOfDay(d) {
   const dt = parseTs(d);
-  return isNaN(dt) ? '' : dt.toLocaleTimeString('pt-BR', {hour: 'numeric', minute: '2-digit'});
+  return isNaN(dt) ? '' : dt.toLocaleTimeString(dashboardLocale(), {hour: 'numeric', minute: '2-digit'});
 }
 
 // Columns of a tiny bar chart; the last day is "today".
@@ -2698,7 +2704,7 @@ function inboxMeter(ib) {
 function inboxDate(iso) {
   if (!iso) return '';
   const d = new Date(iso.length === 10 ? iso + 'T00:00:00' : iso);
-  return isNaN(d) ? iso : d.toLocaleDateString('pt-BR', {month: 'short', day: 'numeric', year: 'numeric'});
+  return isNaN(d) ? iso : d.toLocaleDateString(dashboardLocale(), {month: 'short', day: 'numeric', year: 'numeric'});
 }
 
 async function loadInboxes() {
