@@ -263,7 +263,7 @@ function actionText(a) {
   const n = (v, singular, plural) => (Number(v) || 0) + ' ' + (Number(v) === 1 ? singular : plural);
   switch (a.action_type) {
     case 'prospect': return (pt ? 'Encontrou ' : 'Found ') + n(d.prospects_found, pt ? 'novo contato' : 'new contact', pt ? 'novos contatos' : 'new contacts');
-    case 'write_campaign': return (pt ? 'Escreveu “' : 'Wrote “') + camp + (pt ? '” para ' : '” for ') + n(d.prospect_count, 'contato', pt ? 'contatos' : 'contacts');
+    case 'write_campaign': return (pt ? 'Escreveu “' : 'Wrote “') + camp + (pt ? '” para ' : '” for ') + n(d.prospect_count, pt ? 'contato' : 'contact', pt ? 'contatos' : 'contacts');
     case 'write_failed': return (pt ? 'Não foi possível escrever para alguns contatos' : 'Couldn’t write for some contacts') + (camp ? (pt ? ' em “' : ' in “') + camp + '”' : '');
     case 'stage_campaign': return (pt ? 'Colocou na fila ' : 'Queued ') + n(d.staged, 'email', 'emails') + (pt ? ' de “' : ' from “') + camp + '”' + (d.mode ? ' · ' + escHtml(d.mode) : '');
     case 'send_campaign': return (pt ? 'Enviou “' : 'Sent “') + camp + (pt ? '” para o Instantly · ' : '” to Instantly · ') + n(d.leads_added, 'lead', 'leads');
